@@ -1,0 +1,24 @@
+use thiserror::Error;
+
+#[derive(Error, Debug)]
+pub enum IndexerError {
+    #[error("Solana RPC error: {0}")]
+    RpcError(#[from] solana_client::client_error::ClientError),
+
+    #[error("Database error: {0}")]
+    DatabaseError(#[from] sqlx::Error),
+
+    #[error("Configuration error: {0}")]
+    ConfigError(String),
+
+    #[error("Serialization error: {0}")]
+    SerializationError(#[from] serde_json::Error),
+
+    #[error("Internal error: {0}")]
+    InternalError(String),
+
+    #[error("Unexpected error: {0}")]
+    AnyhowError(#[from] anyhow::Error),
+}
+
+pub type Result<T> = std::result::Result<T, IndexerError>;
