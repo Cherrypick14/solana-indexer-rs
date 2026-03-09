@@ -6,7 +6,16 @@ pub enum IndexerError {
     RpcError(#[from] solana_client::client_error::ClientError),
 
     #[error("Database error: {0}")]
-    DatabaseError(#[from] sqlx::Error),
+    DatabaseError(#[from] tokio_postgres::Error),
+
+    #[error("Pool error: {0}")]
+    PoolError(String),
+
+    #[error("Build error: {0}")]
+    BuildError(#[from] deadpool_postgres::BuildError),
+
+    #[error("TLS error: {0}")]
+    TlsError(#[from] native_tls::Error),
 
     #[error("Configuration error: {0}")]
     ConfigError(String),
