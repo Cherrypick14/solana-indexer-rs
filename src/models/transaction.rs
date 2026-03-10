@@ -16,4 +16,6 @@ pub struct InstructionRecord {
     pub program_id: String,
     pub data: String,
     pub accounts: Vec<String>,
+    pub parent_index: Option<usize>,
+    pub is_inner: bool,
 }
