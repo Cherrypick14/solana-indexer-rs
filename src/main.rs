@@ -18,9 +18,20 @@ async fn main() -> Result<()> {
     };
 
     info!("Configuration loaded successfully");
+
+    // Initialize Database
+    let database = match solana_indexer_rs::Database::new(&config).await {
+        Ok(db) => db,
+        Err(e) => {
+            error!("Failed to initialize database: {}", e);
+            return Err(e);
+        }
+    };
+
+    info!("Database initialized and migrations run");
     
     // Initialize Indexer
-    let indexer = solana_indexer_rs::Indexer::new(config);
+    let indexer = solana_indexer_rs::Indexer::new(config, database);
     
     info!("Indexer initialization complete. Running...");
 
