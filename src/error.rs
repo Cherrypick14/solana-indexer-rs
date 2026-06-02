@@ -5,6 +5,9 @@ pub enum IndexerError {
     #[error("Solana RPC error: {0}")]
     RpcError(#[from] solana_client::client_error::ClientError),
 
+    #[error("RPC error: {0}")]
+    RpcStringError(String),
+
     #[error("Database error: {0}")]
     DatabaseError(#[from] tokio_postgres::Error),
 
@@ -25,6 +28,9 @@ pub enum IndexerError {
 
     #[error("Internal error: {0}")]
     InternalError(String),
+
+    #[error("Shutdown error: {0}")]
+    ShutdownError(String),
 
     #[error("Unexpected error: {0}")]
     AnyhowError(#[from] anyhow::Error),
