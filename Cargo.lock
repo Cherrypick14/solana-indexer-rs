@@ -1262,6 +1262,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "env_filter"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32e90c2accc4b07a8456ea0debdc2e7587bdd890680d71173a15d4ae604f6eef"
+dependencies = [
+ "log",
+ "regex",
+]
+
+[[package]]
 name = "env_logger"
 version = "0.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1272,6 +1282,16 @@ dependencies = [
  "log",
  "regex",
  "termcolor",
+]
+
+[[package]]
+name = "env_logger"
+version = "0.11.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0621c04f2196ac3f488dd583365b9c09be011a4ab8b9f37248ffcc8f6198b56a"
+dependencies = [
+ "env_filter",
+ "log",
 ]
 
 [[package]]
@@ -1522,6 +1542,7 @@ dependencies = [
  "cfg-if",
  "libc",
  "r-efi",
+ "rand_core 0.10.1",
  "wasip2",
  "wasip3",
 ]
@@ -2800,6 +2821,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "quickcheck"
+version = "1.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "95c589f335db0f6aaa168a7cd27b1fc6920f5e1470c804f814d9cd6e62a0f70b"
+dependencies = [
+ "env_logger 0.11.10",
+ "log",
+ "rand 0.10.1",
+]
+
+[[package]]
+name = "quickcheck_macros"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a9a28b8493dd664c8b171dd944da82d933f7d456b829bfb236738e1fe06c5ba4"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.116",
+]
+
+[[package]]
 name = "quinn"
 version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2897,6 +2940,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "rand"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d2e8e8bcc7961af1fdac401278c6a831614941f6164ee3bf4ce61b7edb162207"
+dependencies = [
+ "getrandom 0.4.1",
+ "rand_core 0.10.1",
+]
+
+[[package]]
 name = "rand_chacha"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2952,6 +3005,12 @@ checksum = "76afc826de14238e6e8c374ddcc1fa19e374fd8dd986b0d2af0d02377261d83c"
 dependencies = [
  "getrandom 0.3.4",
 ]
+
+[[package]]
+name = "rand_core"
+version = "0.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "63b8176103e19a2643978565ca18b50549f6101881c443590420e4dc998a3c69"
 
 [[package]]
 name = "rand_hc"
@@ -3718,6 +3777,8 @@ dependencies = [
  "dotenv",
  "native-tls",
  "postgres-native-tls",
+ "quickcheck",
+ "quickcheck_macros",
  "serde",
  "serde_json",
  "solana-client",
@@ -3736,7 +3797,7 @@ version = "1.18.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "121d36ffb3c6b958763312cbc697fbccba46ee837d3a0aa4fc0e90fcb3b884f3"
 dependencies = [
- "env_logger",
+ "env_logger 0.9.3",
  "lazy_static",
  "log",
 ]
