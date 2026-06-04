@@ -35,9 +35,26 @@ async fn main() -> Result<()> {
     info!("Database initialized and migrations run");
     
     // Initialize Indexer
-    let indexer = solana_indexer_rs::Indexer::new(config, database);
+    let indexer = solana_indexer_rs::Indexer::new(config.clone(), database.clone());
     
     info!("Indexer initialization complete. Running...");
+
+    // Start API Server
+    let api_addr = format!("{}:{}", config.api_bind_address, config.api_port);
+    let listener = tokio::net::TcpListener::bind(&api_addr).await.unwrap();
+    let router = solana_indexer_rs::api::create_router(std::sync::Arc::new(database));
+    
+    info!("Starting API server on {}", api_addr);
+
+    let mut shutdown_rx_api = shutdown_manager.subscribe();
+    let api_server_handle = tokio::spawn(async move {
+        axum::serve(listener, router)
+            .with_graceful_shutdown(async move {
+                let _ = shutdown_rx_api.changed().await;
+            })
+            .await
+            .unwrap();
+    });
 
     // Start indexer loop with shutdown handling
     tokio::select! {
@@ -58,6 +75,7 @@ async fn main() -> Result<()> {
         error!("Error during shutdown: {}", e);
         return Err(e);
     }
+    let _ = api_server_handle.await;
 
     info!("Shutdown completed successfully");
     Ok(())

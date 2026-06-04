@@ -5,6 +5,7 @@ pub mod models;
 pub mod utils;
 pub mod indexer;
 pub mod shutdown;
+pub mod api;
 
 pub use error::{IndexerError, Result};
 pub use config::Config;

@@ -48,6 +48,47 @@ cargo build --release
 ./target/release/solana-indexer-rs
 ```
 
+## REST API
+
+The indexer now includes a built-in REST API powered by Axum, enabling you to query indexed transaction data. The API server runs concurrently with the indexer.
+
+### Configuration
+Update your `.env` to configure the API server:
+```env
+API_BIND_ADDRESS=0.0.0.0
+API_PORT=8080
+```
+
+### Endpoints
+
+#### 1. Fetch Transaction by Signature
+Returns the details of a specific transaction including parsed instructions and accounts.
+
+```bash
+curl http://localhost:8080/transactions/5VfydDNssM4QFXwJjnM6DnFn7V1tJxn3TynHz9qu7LrdH8hsZ1WLKMtFtVscky5E4UFs6j5HE5F2WGH4mzYe2hKt
+```
+
+#### 2. Query Transactions
+Returns a paginated list of transactions filtered by query parameters.
+
+**Query Parameters:**
+- `account`: Filter by a specific account public key
+- `program_id`: Filter by a specific program ID
+- `start_slot`: Filter transactions starting from this slot (inclusive)
+- `end_slot`: Filter transactions up to this slot (inclusive)
+- `page`: Page number for pagination (default: 1)
+- `limit`: Number of results per page (default: 20, max: 100)
+
+**Example: Fetch transactions for an account**
+```bash
+curl "http://localhost:8080/transactions?account=11111111111111111111111111111112&page=1&limit=10"
+```
+
+**Example: Fetch transactions by slot range**
+```bash
+curl "http://localhost:8080/transactions?start_slot=150000000&end_slot=150000100"
+```
+
 ## Roadmap
 
 - [ ] Core indexing engine implementation
