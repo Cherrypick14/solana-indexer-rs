@@ -243,8 +243,9 @@ impl Database {
         }
     }
 
+    #[allow(unused_assignments)]
     pub async fn get_transactions(&self, query: &crate::api::handlers::TransactionQuery) -> Result<(Vec<TransactionRecord>, i64)> {
-        let client = self.pool.get().await.map_err(|e| IndexerError::InternalError(e.to_string()))?;
+        let _client = self.pool.get().await.map_err(|e| IndexerError::InternalError(e.to_string()))?;
         
         let mut base_query = "SELECT DISTINCT t.signature, t.slot, t.block_time, t.fee, t.success FROM transactions t".to_string();
         let mut count_query = "SELECT COUNT(DISTINCT t.signature) FROM transactions t".to_string();
@@ -303,7 +304,7 @@ impl Database {
         // Actually tokio_postgres requires trait bounds for ToSql.
         // Let's implement it carefully.
         
-        let mut tx_results = vec![];
+        let tx_results = vec![];
         
         // This is a naive implementation for the sake of the task. 
         // In real-world, we'd use a query builder like sqlbuilder or sea-query.

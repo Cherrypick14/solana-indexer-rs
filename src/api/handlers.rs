@@ -5,7 +5,6 @@ use axum::{
     response::IntoResponse,
 };
 use serde::{Deserialize, Serialize};
-use crate::models::transaction::{TransactionRecord, InstructionRecord};
 use crate::api::AppState;
 
 #[derive(Deserialize, Debug)]

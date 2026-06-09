@@ -496,10 +496,10 @@ mod tests {
         let result = parse_transaction(tx_with_meta, slot, None);
 
         if signature.is_empty() || has_error {
-            // Should be filtered out
+            // This should be filtered out
             result.is_none()
         } else {
-            // Should be parsed successfully
+            // This should be parsed successfully
             if let Some(record) = result {
                 record.signature == signature &&
                 record.slot == slot &&
